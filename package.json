@@ -1,0 +1,49 @@
+{
+  "name": "express-sequelize-rest",
+  "description": "A REST API utily for express and sequelize",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ozinc/express-sequelize-rest",
+  "author": {
+    "name": "Sveinn Fannar Kristjánsson",
+    "email": "sveinn@oz.com"
+  },
+  "publishConfig": {
+    "registry": "http://npm.oz.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ozinc/express-sequelize-rest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ozinc/express-sequelize-rest/issues"
+  },
+  "main": "lib/express-sequelize-rest",
+  "engines": {
+    "node": ">= 0.10.26",
+    "npm": ">=1.4.3"
+  },
+  "scripts": {
+    "test": "gulp test"
+  },
+  "dependencies": {
+    "bluebird": "^2.3.4",
+    "gulp-clean": "^0.3.1",
+    "gulp-jscs": "^1.1.2",
+    "gulp-mocha": "^1.1.0",
+    "gulp-util": "^2.2.20",
+    "jshint-stylish": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "chai-as-promised": "^4.1.1",
+    "gulp": "^3.8.8",
+    "gulp-clean": "^0.3.1",
+    "gulp-jscs": "^1.1.2",
+    "gulp-jshint": "^1.8.4",
+    "gulp-mocha": "^1.1.0",
+    "gulp-util": "^3.0.1",
+    "jshint-stylish": "^1.0.0",
+    "mocha": "^1.21.4"
+  },
+  "keywords": []
+}
