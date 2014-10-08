@@ -1,3 +1,3 @@
 'use strict'
 
-module.exports = require('./lib/express-sequelize-rest');
+module.exports = require('./lib/express-sequelize-restbuddy');

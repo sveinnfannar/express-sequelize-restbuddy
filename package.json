@@ -1,8 +1,8 @@
 {
-  "name": "express-sequelize-rest",
+  "name": "express-sequelize-restbuddy",
   "description": "A REST API utily for express and sequelize",
   "version": "0.1.0",
-  "homepage": "https://github.com/ozinc/express-sequelize-rest",
+  "homepage": "https://github.com/ozinc/express-sequelize-restbuddy",
   "author": {
     "name": "Sveinn Fannar Kristjánsson",
     "email": "sveinn@oz.com"
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ozinc/express-sequelize-rest.git"
+    "url": "git://github.com/ozinc/express-sequelize-restbuddy.git"
   },
   "bugs": {
-    "url": "https://github.com/ozinc/express-sequelize-rest/issues"
+    "url": "https://github.com/ozinc/express-sequelize-restbuddy/issues"
   },
-  "main": "lib/express-sequelize-rest",
+  "main": "lib/express-sequelize-restbuddy",
   "engines": {
     "node": ">= 0.10.26",
     "npm": ">=1.4.3"
@@ -27,15 +27,14 @@
   },
   "dependencies": {
     "bluebird": "^2.3.4",
-    "gulp-clean": "^0.3.1",
-    "gulp-jscs": "^1.1.2",
-    "gulp-mocha": "^1.1.0",
-    "gulp-util": "^2.2.20",
-    "jshint-stylish": "^1.0.0"
+    "debug": "^2.0.0",
+    "lodash": "^2.4.1",
+    "sequelize": "git+https://github.com/sequelize/sequelize.git#v2.0.0-rc1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
     "chai-as-promised": "^4.1.1",
+    "express": "^4.9.5",
     "gulp": "^3.8.8",
     "gulp-clean": "^0.3.1",
     "gulp-jscs": "^1.1.2",
@@ -43,7 +42,8 @@
     "gulp-mocha": "^1.1.0",
     "gulp-util": "^3.0.1",
     "jshint-stylish": "^1.0.0",
-    "mocha": "^1.21.4"
+    "mocha": "^1.21.4",
+    "pg": "^3.4.5"
   },
   "keywords": []
 }

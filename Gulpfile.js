@@ -7,20 +7,6 @@ var mocha = require('gulp-mocha');
 var clean = require('gulp-clean');
 var gutil = require('gulp-util');
 var jscs = require('gulp-jscs');
-var runSequence = require('run-sequence');
-
-var isTest = process.env.NODE_ENV === 'test';
-
-var handleError = function (err) {
-  if (isTest) {
-    this.removeAllListeners();
-    this.emit('error', err);
-  }
-  else {
-    gutil.beep();
-    this.emit('end');
-  }
-};
 
 /**
  * Test
@@ -28,19 +14,15 @@ var handleError = function (err) {
 
 gulp.task('unit-test', function () {
   return gulp.src('./test/unit/*.test.js')
-    .pipe(mocha({reporter: 'spec'}))
-    .on('error', handleError);
+    .pipe(mocha({reporter: 'spec'}));
 });
 
 gulp.task('integration-test', function () {
   return gulp.src('./test/integration/*.test.js')
-    .pipe(mocha({reporter: 'spec'}))
-    .on('error', handleError);
+    .pipe(mocha({reporter: 'spec'}));
 });
 
-gulp.task('test', function (done) {
-  runSequence('unit-test', 'integration-test', done)
-});
+gulp.task('test', ['unit-test', 'integration-test']);
 
 /**
  * Inspect
