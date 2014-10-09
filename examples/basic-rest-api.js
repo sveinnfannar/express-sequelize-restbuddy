@@ -7,11 +7,13 @@
 
 var _ = require('lodash');
 var Promise = require('bluebird');
-var sequelizeRest = require('../');
+var restBuddy = require('../');
 var Sequelize = require('sequelize');
 var express = require('express');
+var bodyParser = require('body-parser')
 var debug = require('debug')('examples/basic-rest-api');
 var app = express();
+app.use(bodyParser.json());
 
 /**
  * Sequelize
@@ -46,14 +48,15 @@ sequelize.sync({ force: true })
 /**
  * Routes
  */
-app.get('/channels', sequelizeRest(sequelize, {
-  queryConditionTransformers: {
+app.get('/channels', restBuddy(sequelize, {
+  conditionTransformers: {
     search: function (value) { return { name: { like: '%' + value + '%' } } }
   }
 }));
 
-app.get('/channels/:id', sequelizeRest(sequelize));
-app.get('/users/:id/channels', sequelizeRest(sequelize));
+app.get('/channels/:id', restBuddy(sequelize));
+app.patch('/channels/:id', restBuddy(sequelize));
+app.put('/channels/:id', restBuddy(sequelize));
 
 
 /**

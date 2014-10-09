@@ -1,5 +1,5 @@
 # Express Sequelize RestBuddy [![Build Status](https://travis-ci.org/sveinnfannar/express-sequelize-restbuddy.svg?branch=master)](https://travis-ci.org/sveinnfannar/express-sequelize-restbuddy)
-> RestBuddy provides a simple, yet powerful abstraction to help reduce the amount of boilerplate code for REST APIs
+> RestBuddy provides a simple, yet powerful abstraction to help reduce the amount of boilerplate code in REST APIs
 
 ## Getting Started
 Install the module with: `npm install express-sequelize-restbuddy`
@@ -8,7 +8,7 @@ Install the module with: `npm install express-sequelize-restbuddy`
 TODO: Insert JSDoc markdown here
 
 ## Examples
-See [`/examples`](/https://github.com/sveinnfannar/express-sequelize-restbuddy/blob/examples/)
+See [/examples](https://github.com/sveinnfannar/express-sequelize-restbuddy/tree/master/examples)
 
 ## Support
 If you have any problem or suggestion please open an issue [here](https://github.com/ozinc/express-sequelize-restbuddy/issues).# express sequelize rest Unit Tests
