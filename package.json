@@ -44,7 +44,8 @@
     "gulp-util": "^3.0.1",
     "jshint-stylish": "^1.0.0",
     "mocha": "^1.21.4",
-    "pg": "^3.4.5"
+    "pg": "^3.4.5",
+    "supertest": "^0.13.0"
   },
   "keywords": []
 }
