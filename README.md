@@ -42,3 +42,7 @@ External dependencies:
 - Support more, less operators in query params ?field=>value and ?field=<value
 - Find a new term for "query transformers" cause they sound weird
 - Add simple examples to README.md
+- Return "405 Method Not Allowed" when trying to POST to a specific id
+- Allow sorting by multiple fields
+- Support + sign when sorting ascending (default)
+- Send the total entries back to the user use the custom HTTP header: X-Total-Count (Optional)
