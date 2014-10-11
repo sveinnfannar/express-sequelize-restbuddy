@@ -18,8 +18,8 @@ describe('Non-relational resources', function () {
     this.app = express();
     this.app.use(bodyParser.json());
     this.User = sequelize.define('User', {
-      name: Sequelize.STRING,
-      age: Sequelize.INTEGER
+      name: { type: Sequelize.STRING },
+      age: { type: Sequelize.INTEGER, allowNull: false }
     });
 
     return sequelize.sync({ force: true })
@@ -165,8 +165,25 @@ describe('Non-relational resources', function () {
   });
 
   describe('Create', function () {
-    it('returns HTTP 201 (Created) with created user');
-    it('returns HTTP 400 (Bad Request) for invalid body');
+    beforeEach(function () {
+      this.app.post('/users', restBuddy(sequelize));
+    });
+
+    it('returns HTTP 201 (Created) with created user', function (done) {
+      request(this.app)
+        .post('/users')
+        .send({ name: 'John', age: 32 })
+        .expect(201)
+        .end(done);
+    });
+
+    it('returns HTTP 400 (Bad Request) for invalid body', function (done) {
+      request(this.app)
+        .post('/users')
+        .send({ name: 'John' }) // Causes an error because 'age' is required
+        .expect(400)
+        .end(done);
+    });
   });
 
   describe('Destroy', function () {
