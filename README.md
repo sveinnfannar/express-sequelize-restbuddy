@@ -36,11 +36,11 @@ External dependencies:
 - Handle fields query param to filter fields selected from sequelize
 - Link header pagination (next, previous, first, last)
 - Write some unit tests
-- Write some integration tests
+- ~~Write some integration tests~~
 - Support for relational routes (/repos/:owner/:repo/pulls/:number/commits)
 - Support not operator in query params ?field=!value
 - Support more, less operators in query params ?field=>value and ?field=<value
-- Find a new term for "query transformers" cause they sound weird
+- Find a new term for "condition transformers" cause they sound weird
 - Add simple examples to README.md
 - Return "405 Method Not Allowed" when trying to POST to a specific id
 - Allow sorting by multiple fields
