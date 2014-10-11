@@ -1,15 +1,14 @@
 'use strict';
 
-var _ = require('lodash');
+//var _ = require('lodash');
 var Promise = require('bluebird');
 var Sequelize = require('sequelize');
-var debug = require('debug')('express-sequelize-restbuddy');
 var expect = require('chai').expect;
 var express = require('express');
 var request = require('supertest');
 var restBuddy = require('../../lib/express-sequelize-restbuddy.js');
 
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 var sequelize = new Sequelize('test', 'postgres', null, { dialect: 'postgres' });
 
 describe('Non-relational resources', function () {
@@ -36,7 +35,7 @@ describe('Non-relational resources', function () {
     beforeEach(function () {
       this.app.get('/users', restBuddy(sequelize, {
         conditionTransformers: {
-          search: function (value) { return { name: { like: '%' + value + '%' } } }
+          search: function (value) { return { name: { like: '%' + value + '%' } }; }
         }
       }));
     });
@@ -187,7 +186,23 @@ describe('Non-relational resources', function () {
   });
 
   describe('Destroy', function () {
-    it('returns HTTP 204 (No Content) with empty response');
-    it('returns HTTP 404 (Not Found) for non-existent user');
+    beforeEach(function () {
+      this.app.delete('/users/:id', restBuddy(sequelize));
+    });
+
+    it('returns HTTP 204 (No Content) with empty response on success', function (done) {
+      request(this.app)
+        .delete('/users/1')
+        .expect(204)
+        .end(done);
+    });
+
+    it('returns HTTP 404 (Not Found) for non-existent user', function (done) {
+      request(this.app)
+        .delete('/users/2359834')
+        .expect(404)
+        .expect(/User not found/)
+        .end(done);
+    });
   });
 });
