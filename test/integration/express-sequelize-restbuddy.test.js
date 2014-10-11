@@ -9,12 +9,14 @@ var express = require('express');
 var request = require('supertest');
 var restBuddy = require('../../lib/express-sequelize-restbuddy.js');
 
+var bodyParser = require('body-parser')
 var sequelize = new Sequelize('test', 'postgres', null, { dialect: 'postgres' });
 
 describe('Non-relational resources', function () {
   beforeEach(function () {
     var self = this;
     this.app = express();
+    this.app.use(bodyParser.json());
     this.User = sequelize.define('User', {
       name: Sequelize.STRING,
       age: Sequelize.INTEGER
@@ -130,9 +132,36 @@ describe('Non-relational resources', function () {
   });
 
   describe('Update', function () {
-    it('returns HTTP 200 (OK) with updated user');
-    it('returns HTTP 404 (Not Found) for non-existent user');
-    it('returns HTTP 400 (Bad Request) for invalid body');
+    beforeEach(function () {
+      this.app.put('/users/:id', restBuddy(sequelize));
+      this.app.patch('/users/:id', restBuddy(sequelize));
+    });
+
+    it('returns HTTP 200 (OK) with updated user (PUT)', function (done) {
+      request(this.app)
+        .put('/users/1')
+        .send({ name: 'Snow' })
+        .expect(200)
+        .expect(/Snow/)
+        .end(done);
+    });
+
+    it('returns HTTP 200 (OK) with updated user (PATCH)', function (done) {
+      request(this.app)
+        .patch('/users/1')
+        .send({ name: 'Snow' })
+        .expect(200)
+        .expect(/Snow/)
+        .end(done);
+    });
+
+    it('returns HTTP 404 (Not Found) for non-existent user', function (done) {
+      request(this.app)
+        .patch('/users/235222')
+        .send({ name: 'Snow' })
+        .expect(404)
+        .end(done);
+    });
   });
 
   describe('Create', function () {
