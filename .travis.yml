@@ -4,3 +4,10 @@ node_js:
   - 0.11
 before_script:
   - npm install -g gulp
+
+cache:
+  directories:
+    - node_modules
+
+before_script:
+  - "psql -c 'create database restbuddy_test;' -U postgres"

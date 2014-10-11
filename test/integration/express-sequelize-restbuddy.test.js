@@ -9,7 +9,7 @@ var request = require('supertest');
 var restBuddy = require('../../lib/express-sequelize-restbuddy.js');
 
 var bodyParser = require('body-parser');
-var sequelize = new Sequelize('test', 'postgres', null, { dialect: 'postgres' });
+var sequelize = new Sequelize('restbuddy_test', 'postgres', null, { dialect: 'postgres' });
 
 describe('Non-relational resources', function () {
   beforeEach(function () {
