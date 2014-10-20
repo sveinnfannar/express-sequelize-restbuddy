@@ -175,6 +175,7 @@ describe('Non-relational endpoints', function () {
   describe('Create', function () {
     beforeEach(function () {
       this.app.post('/users', restBuddy(sequelize));
+      this.app.post('/users/:id', restBuddy(sequelize));
     });
 
     it('returns HTTP 201 (Created) with created user', function (done) {
@@ -182,6 +183,14 @@ describe('Non-relational endpoints', function () {
         .post('/users')
         .send({ name: 'John', age: 32 })
         .expect(201)
+        .end(done);
+    });
+
+    it('returns HTTP 405 (Method Not Allowed) when a specific document is specified', function (done) {
+      request(this.app)
+        .post('/users/1')
+        .send({ name: 'John', age: 32 })
+        .expect(405)
         .end(done);
     });
 
