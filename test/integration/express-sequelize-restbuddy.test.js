@@ -1,6 +1,5 @@
 'use strict';
 
-//var _ = require('lodash');
 var Promise = require('bluebird');
 var Sequelize = require('sequelize');
 var expect = require('chai').expect;
@@ -11,7 +10,7 @@ var restBuddy = require('../../lib/express-sequelize-restbuddy.js');
 var bodyParser = require('body-parser');
 var sequelize = new Sequelize('restbuddy_test', 'postgres', null, { dialect: 'postgres' });
 
-describe('Non-relational resources', function () {
+describe('Non-relational endpoints', function () {
   beforeEach(function () {
     var self = this;
     this.app = express();
@@ -35,7 +34,9 @@ describe('Non-relational resources', function () {
     beforeEach(function () {
       this.app.get('/users', restBuddy(sequelize, {
         conditionTransformers: {
-          search: function (value) { return { name: { like: '%' + value + '%' } }; }
+          search: function (value) {
+            return { name: { like: '%' + value + '%' } };
+          }
         }
       }));
     });
@@ -76,6 +77,14 @@ describe('Non-relational resources', function () {
         .expect(/Avon.*Selm.*Swen/)
         .end(done);
     });
+
+//    it('returns HTTP 400 (Bad Request) when trying to order by non-existent field', function (done) {
+//      request(this.app)
+//        .get('/users?order=doesnotexist')
+//        .expect(400)
+//        .expect(/column "doesnotexist" does not exist/)
+//        .end(done);
+//    });
 
     it('returns HTTP 200 (OK) with a paginated list of users', function (done) {
       request(this.app)
@@ -202,6 +211,132 @@ describe('Non-relational resources', function () {
         .delete('/users/2359834')
         .expect(404)
         .expect(/User not found/)
+        .end(done);
+    });
+  });
+});
+
+describe('Relational endpoints', function () {
+  before(function (done) {
+    this.app = express();
+    this.app.use(bodyParser.json());
+
+    /**
+     * Models
+     */
+    var User = sequelize.define('User', {
+      name: Sequelize.STRING,
+      email: Sequelize.STRING
+    });
+
+    var Subscription = sequelize.define('Subscription');
+
+    var Channel = sequelize.define('Channel', {
+      name: Sequelize.STRING,
+      price: Sequelize.FLOAT
+    });
+
+    var Content = sequelize.define('Content', {
+      title: Sequelize.STRING,
+      type: Sequelize.STRING
+    });
+
+    var Video = sequelize.define('Video', {
+      bitrate: Sequelize.INTEGER
+    });
+
+
+    /**
+     * Associations
+     */
+    // User *-* Channel 1-* Content 1-1 Video
+    User.hasMany(Channel, { through: Subscription });
+    Channel.hasMany(User, { through: Subscription });
+    Channel.hasMany(Content);
+    Content.belongsTo(Channel);
+    Content.hasOne(Video);
+    Video.belongsTo(Content);
+
+
+    /**
+     * Test data
+     */
+    sequelize.sync({ force: true })
+      .then(function () {
+        return Promise.all([
+          User.create({ name: 'Swen', email: 'swen@swen.com' }),
+          User.create({ name: 'Hawk', email: 'hawk@hawk.com' }),
+          Channel.create({ name: 'Episode Channel', price: 0.9 }),
+          Channel.create({ name: 'Movie Channel', price: 1.9 }),
+          Content.create({ title: 'House of Cards', type: 'Episode' }),
+          Content.create({ title: 'Spirited Away', type: 'Movie' }),
+          Video.create({ bitrate: 1000 }),
+          Video.create({ bitrate: 200 })
+        ]).spread(function  (user1, user2, channel1, channel2, content1, content2, video1, video2) {
+          return Promise.all([
+            user1.setChannels([channel1, channel2]),
+            channel1.addContent(content1),
+            channel2.addContent(content2),
+            content1.setVideo(video1),
+            content2.setVideo(video2)
+          ]);
+        });
+      })
+      .nodeify(done);
+  });
+
+  describe('List', function () {
+    beforeEach(function () {
+      this.app.get('/users/:id/channels', restBuddy(sequelize));
+      this.app.get('/channels/:id/content', restBuddy(sequelize));
+    });
+
+    it('returns HTTP 200 (OK) with a list of all channels for user', function (done) {
+      request(this.app)
+        .get('/users/1/channels')
+        .expect(200)
+        .expect(function (res) {
+          expect(res.body).to.be.a('array');
+          expect(res.body).to.have.length(2);
+        })
+        .expect(/Episode Channel/)
+        .expect(/Movie Channel/)
+        .end(done);
+    });
+
+    it('returns HTTP 200 (OK) with a list of all content for channel', function (done) {
+      request(this.app)
+        .get('/channels/1/content')
+        .expect(200)
+        .expect(function (res) {
+          expect(res.body).to.be.a('array');
+          expect(res.body).to.have.length(1);
+        })
+        .expect(/House of Cards/)
+        .end(done);
+    });
+  });
+
+  describe('Show', function () {
+    beforeEach(function () {
+      this.app.get('/users/:id/channels/:id', restBuddy(sequelize));
+    });
+
+    it('returns HTTP 200 (OK) with channel 2 for to user 1', function (done) {
+      request(this.app)
+        .get('/users/1/channels/1')
+        .expect(200)
+        .expect(function (res) {
+          expect(res.body).to.be.a('object');
+        })
+        .expect(/Episode Channel/)
+        .end(done);
+    });
+
+    it('returns HTTP 404 (Not Found) for channel 2 for user 2', function (done) {
+      request(this.app)
+        .get('/users/2/channels/2')
+        .expect(404)
         .end(done);
     });
   });

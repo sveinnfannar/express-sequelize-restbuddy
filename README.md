@@ -31,18 +31,18 @@ External dependencies:
 - PostgreSQL
 
 ## Todo
-- Much more experimenting and playing around
+- ~~Support for relational routes (/repos/:owner/:repo/pulls/:number/commits)~~
+- ~~Write some unit tests~~
+- ~~Write some integration tests~~
 - Handle include query param to embed documents
 - Handle fields query param to filter fields selected from sequelize
-- Link header pagination (next, previous, first, last)
-- Write some unit tests
-- ~~Write some integration tests~~
-- Support for relational routes (/repos/:owner/:repo/pulls/:number/commits)
-- Support not operator in query params ?field=!value
+- Support 'not' operator in query params ?field=!value
 - Support more, less operators in query params ?field=>value and ?field=<value
 - Find a new term for "condition transformers" cause they sound weird
 - Add simple examples to README.md
 - Return "405 Method Not Allowed" when trying to POST to a specific id
-- Allow sorting by multiple fields
-- Support + sign when sorting ascending (default)
+- Allow ordering by multiple fields ?order=name,age
+- Support + sign for ascending order (default)
 - Send the total entries back to the user use the custom HTTP header: X-Total-Count (Optional)
+- Link header pagination (next, previous, first, last)
+- Implement HEAD http method

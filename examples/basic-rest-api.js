@@ -33,16 +33,14 @@ var ScheduleItem = sequelize.define('ScheduleItem', {
 });
 
 Channel.hasMany(ScheduleItem);
+ScheduleItem.belongsTo(Channel);
 
 sequelize.sync({ force: true })
   .then(function () {
-    Promise.all([
+    return Promise.all([
       Channel.create({ name: 'My Channel 1', price: 5.99 }),
       Channel.create({ name: 'My Channel 2', price: 0.99 })
-    ]).spread(function (channel1, channel2) {
-      channel1.addScheduleItem(ScheduleItem.build({ title: 'The Simpsons' }));
-      channel1.addScheduleItem(ScheduleItem.build({ title: 'House' }));
-    });
+    ])
   });
 
 /**
@@ -58,6 +56,13 @@ app.get('/channels/:id', restBuddy(sequelize));
 app.patch('/channels/:id', restBuddy(sequelize));
 app.put('/channels/:id', restBuddy(sequelize));
 
+//app.get('/channels', restBuddy(sequelize));
+app.get('/users/:id/channels', restBuddy(sequelize));
+
+app.get('/users/:id/channels/:id', function (req, res, next) {
+  console.log(typeof req.params.id);
+  res.json(req);
+});
 
 /**
  * Server
