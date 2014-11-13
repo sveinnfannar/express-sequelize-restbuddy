@@ -1,6 +1,13 @@
 # Express Sequelize RestBuddy [![Build Status](https://travis-ci.org/sveinnfannar/express-sequelize-restbuddy.svg?branch=master)](https://travis-ci.org/sveinnfannar/express-sequelize-restbuddy)
 > RestBuddy provides a simple, yet powerful abstraction to help reduce the amount of boilerplate code in REST APIs
 
+RestBuddy simply queries your database using (Sequelize)[https://github.com/sequelize/sequelize) depending on the structure of the route and attatches the data to the `req` object.
+
+Here are some examples of how restful routes and query parameters map to database lookups: 
+- `/users` -> paginated results from the `Users` table 
+- `/users?name=john` -> paginated results from the `Users` table where name is equal to "john"
+- `/users/:id` -> the row with a given id from `Users` table or 404
+
 ## Getting Started
 Install the module with: `npm install express-sequelize-restbuddy`
 
@@ -31,9 +38,14 @@ External dependencies:
 - PostgreSQL
 
 ## Todo
+- ~~Get multiple resources support~~
+- ~~Get single resource support~~
+- ~~Create (put/patch) resource support~~
+- ~~Destroy (delete) resource support~~
 - ~~Support for relational routes (/repos/:owner/:repo/pulls/:number/commits)~~
 - ~~Write some unit tests~~
 - ~~Write some integration tests~~
+- ~~Attatch the result data to the `req` object instead of sending it and closing the socket~~
 - Handle include query param to embed documents
 - Handle fields query param to filter fields selected from sequelize
 - Support 'not' operator in query params ?field=!value
