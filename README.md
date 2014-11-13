@@ -1,7 +1,7 @@
 # Express Sequelize RestBuddy [![Build Status](https://travis-ci.org/sveinnfannar/express-sequelize-restbuddy.svg?branch=master)](https://travis-ci.org/sveinnfannar/express-sequelize-restbuddy)
 > RestBuddy provides a simple, yet powerful abstraction to help reduce the amount of boilerplate code in REST APIs
 
-RestBuddy simply queries your database using (Sequelize)[https://github.com/sequelize/sequelize) depending on the structure of the route and attatches the data to the `req` object.
+RestBuddy simply queries your database using [Sequelize](https://github.com/sequelize/sequelize) depending on the structure of the route and attatches the data to the `req` object.
 
 Here are some examples of how restful routes and query parameters map to database lookups: 
 - `/users` -> paginated results from the `Users` table 
