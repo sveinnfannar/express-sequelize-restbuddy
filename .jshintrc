@@ -1,4 +1,5 @@
 {
+  "predef": [ "-Promise" ],
   "eqeqeq": true,
   "forin": true,
   "immed": true,
