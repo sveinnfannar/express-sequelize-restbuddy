@@ -38,7 +38,7 @@ describe('Non-relational endpoints', function () {
             return { name: { like: '%' + value + '%' } };
           }
         }
-      }));
+      }), sendData);
     });
 
     it('returns HTTP 200 (OK) with a list of all users', function (done) {
@@ -78,14 +78,6 @@ describe('Non-relational endpoints', function () {
         .end(done);
     });
 
-//    it('returns HTTP 400 (Bad Request) when trying to order by non-existent field', function (done) {
-//      request(this.app)
-//        .get('/users?order=doesnotexist')
-//        .expect(400)
-//        .expect(/column "doesnotexist" does not exist/)
-//        .end(done);
-//    });
-
     it('returns HTTP 200 (OK) with a paginated list of users', function (done) {
       request(this.app)
         .get('/users?order=age&perPage=1&page=1')
@@ -115,7 +107,7 @@ describe('Non-relational endpoints', function () {
 
   describe('Show', function () {
     beforeEach(function () {
-      this.app.get('/users/:id', restBuddy(sequelize));
+      this.app.get('/users/:id', restBuddy(sequelize), sendData);
     });
 
     it('returns HTTP 200 (OK) with a single user', function (done) {
@@ -141,8 +133,8 @@ describe('Non-relational endpoints', function () {
 
   describe('Update', function () {
     beforeEach(function () {
-      this.app.put('/users/:id', restBuddy(sequelize));
-      this.app.patch('/users/:id', restBuddy(sequelize));
+      this.app.put('/users/:id', restBuddy(sequelize), sendData);
+      this.app.patch('/users/:id', restBuddy(sequelize), sendData);
     });
 
     it('returns HTTP 200 (OK) with updated user (PUT)', function (done) {
@@ -174,8 +166,8 @@ describe('Non-relational endpoints', function () {
 
   describe('Create', function () {
     beforeEach(function () {
-      this.app.post('/users', restBuddy(sequelize));
-      this.app.post('/users/:id', restBuddy(sequelize));
+      this.app.post('/users', restBuddy(sequelize), sendData);
+      this.app.post('/users/:id', restBuddy(sequelize), sendData);
     });
 
     it('returns HTTP 201 (Created) with created user', function (done) {
@@ -205,7 +197,7 @@ describe('Non-relational endpoints', function () {
 
   describe('Destroy', function () {
     beforeEach(function () {
-      this.app.delete('/users/:id', restBuddy(sequelize));
+      this.app.delete('/users/:id', restBuddy(sequelize), sendData);
     });
 
     it('returns HTTP 204 (No Content) with empty response on success', function (done) {
@@ -296,8 +288,8 @@ describe('Relational endpoints', function () {
 
   describe('List', function () {
     beforeEach(function () {
-      this.app.get('/users/:id/channels', restBuddy(sequelize));
-      this.app.get('/channels/:id/content', restBuddy(sequelize));
+      this.app.get('/users/:id/channels', restBuddy(sequelize), sendData);
+      this.app.get('/channels/:id/content', restBuddy(sequelize), sendData);
     });
 
     it('returns HTTP 200 (OK) with a list of all channels for user', function (done) {
@@ -328,7 +320,7 @@ describe('Relational endpoints', function () {
 
   describe('Show', function () {
     beforeEach(function () {
-      this.app.get('/users/:id/channels/:id', restBuddy(sequelize));
+      this.app.get('/users/:id/channels/:id', restBuddy(sequelize), sendData);
     });
 
     it('returns HTTP 200 (OK) with channel 2 for to user 1', function (done) {
@@ -350,3 +342,12 @@ describe('Relational endpoints', function () {
     });
   });
 });
+
+/**
+ * Utility Functions
+ */
+
+// The last middleware to be called in the response chain to write the data to the response
+function sendData (req, res) {
+  res.send(req.data);
+}
