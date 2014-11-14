@@ -58,3 +58,5 @@ External dependencies:
 - Send the total entries back to the user use the custom HTTP header: X-Total-Count (Optional)
 - Link header pagination (next, previous, first, last)
 - Implement HEAD http method
+- Support POST with relations (POST /repos/:owner/:repo/pulls)
+- Support PUT to a specific id which does not already exist
