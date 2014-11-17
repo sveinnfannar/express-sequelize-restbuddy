@@ -17,14 +17,15 @@ It even works for PUTs, POSTs, DELETEs and PATCHs:
 ## Getting Started
 Install the module with: `npm install express-sequelize-restbuddy`
 
-## Documentation
+// TODO: Add usage example
+
+For more example see [/examples](https://github.com/sveinnfannar/express-sequelize-restbuddy/tree/master/examples) or look at the [tests](https://github.com/sveinnfannar/express-sequelize-restbuddy/tree/master/test).
+
+## API Documentation
 TODO: Insert JSDoc markdown here
 
-## Examples
-See [/examples](https://github.com/sveinnfannar/express-sequelize-restbuddy/tree/master/examples)
-
 ## Support
-If you have any problem or suggestion please open an issue [here](https://github.com/ozinc/express-sequelize-restbuddy/issues).# express sequelize rest Unit Tests
+If you have any problem or suggestion please open an issue [here](https://github.com/ozinc/express-sequelize-restbuddy/issues).
 
 ## Tests
 To run all tests:
