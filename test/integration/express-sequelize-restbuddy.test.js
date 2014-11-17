@@ -341,6 +341,39 @@ describe('Relational endpoints', function () {
         .end(done);
     });
   });
+
+  describe('Create', function () {
+    beforeEach(function () {
+      this.app.post('/channels/:id/contents', restBuddy(sequelize), sendData);
+      this.app.post('/channels/:id/foobars', restBuddy(sequelize), sendData);
+      this.app.post('/foobars/:id/contents', restBuddy(sequelize), sendData);
+    });
+
+    it('returns HTTP 201 (Created) with created content related to channel', function (done) {
+      request(this.app)
+        .post('/channels/1/contents')
+        .send({ title: 'The Simpsons', type: 'Episode' })
+        .expect(201)
+        .expect(/"ChannelId":1/)
+        .end(done);
+    });
+
+    it('returns HTTP 404 (Not Found) when model does not exist', function (done) {
+      request(this.app)
+        .post('/channels/1/foobars')
+        .send({ title: 'The Simpsons', type: 'Episode' })
+        .expect(404)
+        .end(done);
+    });
+
+    //it('returns HTTP 404 (Not Found) when related model does not exist', function (done) {
+    //  request(this.app)
+    //    .post('/foobars/1/contents')
+    //    .send({ title: 'The Simpsons', type: 'Episode' })
+    //    .expect(404)
+    //    .end(done);
+    //});
+  });
 });
 
 /**
