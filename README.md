@@ -4,14 +4,14 @@
 RestBuddy simply queries your database using [Sequelize](https://github.com/sequelize/sequelize) depending on the structure of the route and attatches the data to the `req` object.
 
 Here are some examples of how restful routes and query parameters map to database lookups: 
-- GET `/users` -> paginated results from the `Users` table 
-- GET `/users?name=john` -> paginated results from the `Users` table where name is equal to "john"
-- GET `/users/:id` -> the row with a given id from `Users` table or 404
-- GET `/repos/:user/:repo` -> it also works for one or more arbitrary fields (make sure they are unique and indexed)
+- `GET` `/users` -> paginated results from the `Users` table 
+- `GET` `/users?name=john` -> paginated results from the `Users` table where name is equal to "john"
+- `GET` `/users/:id` -> the row with a given id from `Users` table or 404
+- `GET` `/repos/:user/:repo` -> it also works for one or more arbitrary fields (make sure they are unique and indexed)
 
 It even works for PUTs, POSTs, DELETEs and PATCHs:
-- POST `/users/:id/todos` -> create a new todo for a specific user
-- PATCH `/users/:id/todos/:id` -> partially update a specific todo for a specific user
+- `POST` `/users/:id/todos` -> create a new todo for a specific user
+- `PATCH` `/users/:id/todos/:id` -> partially update a specific todo for a specific user
 - ..
 
 ## Getting Started
