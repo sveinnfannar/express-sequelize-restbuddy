@@ -80,7 +80,7 @@ describe('Non-relational endpoints', function () {
 
     it('returns HTTP 200 (OK) with a paginated list of users', function (done) {
       request(this.app)
-        .get('/users?order=age&perPage=1&page=1')
+        .get('/users?order=age&items=1&page=1')
         .expect('Content-Type', /json/)
         .expect(200)
         .expect(function (res) {
