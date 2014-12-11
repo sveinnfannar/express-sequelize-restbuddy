@@ -376,6 +376,73 @@ describe('Relational endpoints', function () {
   });
 });
 
+describe('Custom query function', function () {
+  beforeEach(function () {
+    var self = this;
+    this.app = express();
+    this.app.use(bodyParser.json());
+    this.User = sequelize.define('User', {
+      name: { type: Sequelize.STRING },
+      age: { type: Sequelize.INTEGER, allowNull: false }
+    });
+
+    this.app.get('/this/route/does/not/matter', restBuddy(sequelize, {
+      queryFunction: function () {
+        return { model: self.User, where: { age: { gt: 21 } } };
+      }
+    }), sendData);
+
+    return sequelize.sync({ force: true })
+      .then(function () {
+        return self.User.create({ name: 'Swen', age: 25 });
+      })
+      .then(function () {
+        return self.User.create({ name: 'Selm', age: 22 });
+      })
+      .then(function () {
+        return self.User.create({ name: 'Avon', age: 16 });
+      });
+  });
+
+  it('returns HTTP 200 with data from the custom query instead of a query generated from the route path', function (done) {
+    request(this.app)
+      .get('/this/route/does/not/matter')
+      .expect(200)
+      .expect(/Swen/)
+      .expect(/Selm/)
+      .expect(function (res) {
+        expect(res.body).to.be.a('array');
+        expect(res.body).to.have.length(2);
+      })
+      .end(done);
+  });
+
+  it('returns HTTP 200 with paginated data from the custom query', function (done) {
+    request(this.app)
+      .get('/this/route/does/not/matter?page=1&items=1')
+      .expect(200)
+      .expect(/Selm/)
+      .expect(function (res) {
+        expect(res.body).to.be.a('array');
+        expect(res.body).to.have.length(1);
+      })
+      .end(done);
+  });
+
+  it('returns HTTP 200 with filtered data from the custom query', function (done) {
+    request(this.app)
+      .get('/this/route/does/not/matter?name=Swen')
+      .expect(200)
+      .expect(/Swen/)
+      .expect(function (res) {
+        expect(res.body).to.be.a('array');
+        expect(res.body).to.have.length(1);
+      })
+      .end(done);
+  });
+});
+
+
 /**
  * Utility Functions
  */
