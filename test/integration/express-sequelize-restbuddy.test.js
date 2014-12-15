@@ -33,7 +33,7 @@ describe('Non-relational endpoints', function () {
   describe('List', function () {
     beforeEach(function () {
       this.app.get('/users', restBuddy(sequelize, {
-        conditionTransformers: {
+        specialQueryParams: {
           search: function (value) {
             return { name: { like: '%' + value + '%' } };
           }

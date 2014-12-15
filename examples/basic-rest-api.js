@@ -53,7 +53,7 @@ sequelize.sync({ force: true })
  * Routes
  */
 app.get('/channels', restBuddy(sequelize, {
-  conditionTransformers: {
+  specialQueryParams: {
     search: function (value) { return { name: { like: '%' + value + '%' } } }
   }
 }), sendData);
