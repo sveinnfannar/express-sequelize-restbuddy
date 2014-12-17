@@ -89,6 +89,15 @@ describe('Non-relational endpoints', function () {
         .end(done);
     });
 
+    it('returns HTTP 200 (OK) with a list of all users ordered by createdAt descending', function (done) {
+      request(this.app)
+        .get('/users?order=-createdAt')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .expect(/Avon.*Selm.*Swen/)
+        .end(done);
+    });
+
     it('returns HTTP 200 (OK) with a paginated list of users', function (done) {
       request(this.app)
         .get('/users?order=age&items=1&page=1')
