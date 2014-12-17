@@ -129,7 +129,7 @@ describe('Non-relational endpoints', function () {
         .expect(function (res) {
           expect(res.body).to.be.a('object');
         })
-        .expect(/Swen/) // TODO: This could theoretically fail because of race-conditions between inserts, too tired to deal with it now
+        .expect(/Swen/)
         .end(done);
     });
 
