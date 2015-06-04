@@ -7,10 +7,15 @@ var mocha = require('gulp-mocha');
 var clean = require('gulp-clean');
 var gutil = require('gulp-util');
 var jscs = require('gulp-jscs');
+var shell = require('gulp-shell');
 
 /**
  * Test
  */
+
+gulp.task('db-prepare', shell.task([
+  'createdb restbuddy-test',
+]));
 
 gulp.task('unit-test', function () {
   return gulp.src('./test/unit/*.test.js')
