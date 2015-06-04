@@ -149,6 +149,14 @@ describe('Non-relational endpoints', function () {
         .expect(404)
         .end(done);
     });
+
+    it('returns HTTP 400 (Bad Request) for an invalid key', function (done) {
+      request(this.app)
+        .get('/users/foo')
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .end(done);
+    });
   });
 
   describe('Update', function () {
@@ -180,6 +188,14 @@ describe('Non-relational endpoints', function () {
         .patch('/users/235222')
         .send({ name: 'Snow' })
         .expect(404)
+        .end(done);
+    });
+
+    it('returns HTTP 400 (Bad Request) for an invalid key', function (done) {
+      request(this.app)
+        .patch('/users/foo')
+        .expect('Content-Type', /json/)
+        .expect(400)
         .end(done);
     });
   });
@@ -232,6 +248,14 @@ describe('Non-relational endpoints', function () {
         .delete('/users/2359834')
         .expect(404)
         .expect(/User not found/)
+        .end(done);
+    });
+
+    it('returns HTTP 400 (Bad Request) for an invalid key', function (done) {
+      request(this.app)
+        .delete('/users/foo')
+        .expect('Content-Type', /json/)
+        .expect(400)
         .end(done);
     });
   });
