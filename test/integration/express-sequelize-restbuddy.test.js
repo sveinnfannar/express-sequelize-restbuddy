@@ -19,6 +19,9 @@ describe('Non-relational endpoints', function () {
       name: { type: Sequelize.STRING },
       age: { type: Sequelize.INTEGER, allowNull: false }
     });
+    this.Tweet = sequelize.define('Tweet', {
+      text: { type: Sequelize.STRING },
+    });
 
     return sequelize.sync({ force: true })
       .then(function () {
@@ -204,6 +207,7 @@ describe('Non-relational endpoints', function () {
     beforeEach(function () {
       this.app.post('/users', restBuddy(sequelize), sendData);
       this.app.post('/users/:id', restBuddy(sequelize), sendData);
+      this.app.post('/users/:id/tweet', restBuddy(sequelize), sendData);
     });
 
     it('returns HTTP 201 (Created) with created user', function (done) {
@@ -226,6 +230,14 @@ describe('Non-relational endpoints', function () {
       request(this.app)
         .post('/users')
         .send({ name: 'John' }) // Causes an error because 'age' is required
+        .expect(400)
+        .end(done);
+    });
+
+    it('returns HTTP 400 (Bad Request) for a bad related resource', function (done) {
+      request(this.app)
+        .post('/users/swen/tweet') // swen is not a valid id
+        .send({ text: 'Check out this sweet cat pic' }) // Valid data
         .expect(400)
         .end(done);
     });
