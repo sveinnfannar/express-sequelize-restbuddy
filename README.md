@@ -28,6 +28,10 @@ TODO: Insert JSDoc markdown here
 If you have any problem or suggestion please open an issue [here](https://github.com/ozinc/express-sequelize-restbuddy/issues).
 
 ## Tests
+Before running tests for the first time run
+`gulp db-prepare`
+to create a new postgres database for the tests.
+
 To run all tests:
 `gulp test`
 
